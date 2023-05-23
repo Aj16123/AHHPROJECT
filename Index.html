@@ -1,12 +1,59 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Page Title</title>
+    <title>The Clicker Game</title>
+    <style>
+        /* CSS styling for the GUI elements */
+        .container {
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .click-button {
+            display: inline-block;
+            padding: 20px 40px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+            font-size: 24px;
+        }
+        #visuals {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <h1>THE CLICKER GAME</h1>
 
-<h1>This is a Heading welcome</h1>
-<p>This is a paragraph.</p>
+        <div id="visuals">
+            <!-- Visual elements can be added here -->
+        </div>
 
+        <div>
+            <button class="click-button" onclick="clickAction()">Click</button>
+            <button type="button" onclick="buyAction()">Buy</button>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript function for the Click button
+        function clickAction() {
+            // Perform actions with the Click button
+            console.log("Click action triggered.");
+        }
+
+        // JavaScript function for the Buy button
+        function buyAction() {
+            // Perform actions with the Buy button
+            console.log("Buy action triggered.");
+        }
+    </script>
 </body>
 </html>
