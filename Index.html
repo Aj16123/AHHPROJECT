@@ -1,16 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <body style="background-color:DarkTurquoise;">
     <title>The Clicker Game</title>
     <style>
-        /* CSS styling for the GUI elements */
         .container {
             margin: 20px;
         }
         h1 {
             text-align: center;
+            position: absolute;
+            left: 0;
+            top: 0%;
+            width: 100%;
+            animation: moveTitle 5s linear infinite;
         }
-        .click-button {
+        @keyframes moveTitle {
+            0% { left: -200px; }
+            100% { left: calc(100% - 200px); } 
+            /* Adjusts the width of the title */
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 100px;
+        }
+        .game-button {
             display: inline-block;
             padding: 20px 40px;
             background-color: #4CAF50;
@@ -20,39 +34,151 @@
             margin-right: 10px;
             font-size: 24px;
         }
-        #visuals {
+        .option-button {
+            display: block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        .menu-container {
             margin-top: 20px;
             border: 1px solid #ccc;
             padding: 10px;
             text-align: center;
+            display: none;
+            position: relative;
+            top: 20px; /* Adjust the desired distance to move the buy options down */
+        }
+        .click-counter {
+            text-align: center;
+            font-size: 36px;
+            margin-top: 110px; /* Adjust the desired distance to move the click counter down */
+        }
+        .click-container {
+            text-align: center;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>THE CLICKER GAME</h1>
-
-        <div id="visuals">
-            <!-- Visual elements can be added here -->
+        <h1 style="font-family: 'Dinasty', cursive;">THE CLICKER GAME</h1>
+        <div class="click-container">
+            <div class="click-counter" id="clickCounter">0 clicks</div>
         </div>
-
-        <div>
-            <button class="click-button" onclick="clickAction()">Click</button>
-            <button type="button" onclick="buyAction()">Buy Autoclick speed</button>
+        <div class="button-container">
+            <button class="game-button" onclick="clickAction()">Click</button>
+            <button class="game-button" onclick="toggleMenu()">Buy</button>
+        </div>
+        <div class="menu-container">
+            <button class="option-button" onclick="purchaseOption(1)">10 clicks per second: 50 clicks</button>
+            <button class="option-button" onclick="purchaseOption(2)">20 clicks per second: 75 clicks</button>
+            <button class="option-button" onclick="purchaseOption(3)">40 clicks per second: 100 clicks</button>
+            <button class="option-button" onclick="purchaseOption(4)">75 clicks per second: 150 clicks</button>
+            <button class="option-button" onclick="purchaseOption(5)">90 clicks per second: 175 clicks</button>
         </div>
     </div>
 
     <script>
+        var clickCount = 0;
+        var clickCounter = document.getElementById("clickCounter");
+        var clickIncrement = 1; // Default click increment
+        var cps = 0; // Clicks per second
+        var clickTimer; // Timer for clicks per second
+
+        // Update the click counter
+        clickCounter.innerText = clickCount + " clicks";
+
         // JavaScript function for the Click button
         function clickAction() {
-            // Perform actions with the Click button
+            clickCount += clickIncrement;
+            clickCounter.innerText = clickCount + " clicks";
             console.log("Click action triggered.");
         }
 
-        // JavaScript function for the Buy button
-        function buyAction() {
-            // Perform actions with the Buy button
-            console.log("Buy action triggered.");
+        // JavaScript function to toggle the menu visibility
+        function toggleMenu() {
+            var menuContainer = document.querySelector(".menu-container");
+            menuContainer.style.display = (menuContainer.style.display === "none") ? "block" : "none";
+        }
+
+        // JavaScript function to handle the purchase of an option
+        function purchaseOption(optionNumber) {
+            var optionButton = document.querySelector(".menu-container button:nth-child(" + optionNumber + ")");
+            var price = getPriceFromButton(optionButton);
+
+            if (clickCount >= price) {
+                clickCount -= price;
+                clickCounter.innerText = clickCount + " clicks";
+
+                // Increase the price for the next purchase
+                updatePrice(optionButton, price);
+
+                // Perform actions with the purchased option
+                console.log("Purchased Option " + optionNumber + " for " + price + " clicks");
+                applyOptionEffect(optionNumber, price);
+            } else {
+                console.log("Insufficient clicks to purchase Option " + optionNumber);
+            }
+        }
+
+        // Helper function to extract the price from an option button text
+        function getPriceFromButton(button) {
+            var buttonText = button.innerText;
+            var priceString = buttonText.substring(buttonText.indexOf(":") + 1).trim();
+            return parseInt(priceString);
+        }
+
+        // Helper function to update the price for the next purchase
+        function updatePrice(button, currentPrice) {
+            var priceIncrease = Math.ceil(currentPrice * 0.3); // Increase price by 30%
+            var newPrice = currentPrice + priceIncrease;
+            button.innerText = button.innerText.replace(currentPrice, newPrice);
+        }
+
+        // Helper function to apply the effect of the purchased option
+        function applyOptionEffect(optionNumber, price) {
+            var clicksPerSecond = 0;
+
+            switch (optionNumber) {
+                case 1:
+                    clicksPerSecond = 10;
+                    break;
+                case 2:
+                    clicksPerSecond = 20;
+                    break;
+                case 3:
+                    clicksPerSecond = 40;
+                    break;
+                case 4:
+                    clicksPerSecond = 75;
+                    break;
+                case 5:
+                    clicksPerSecond = 90;
+                    break;
+                default:
+                    break;
+            }
+
+            cps += clicksPerSecond;
+
+            if (clickTimer) {
+                clearInterval(clickTimer);
+            }
+
+            clickTimer = setInterval(function () {
+                clickCount += cps;
+                clickCounter.innerText = clickCount + " clicks";
+            }, 1000);
+        }
+
+        // JavaScript function for the Back button
+        function goBack() {
+            window.history.back();
         }
     </script>
 </body>
