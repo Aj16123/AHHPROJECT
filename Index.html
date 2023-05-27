@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <body style="background-color:DarkTurquoise;">
+    <body style="background-color:rgb(0, 182, 179);">
     <title>The Clicker Game</title>
     <style>
         .container {
@@ -51,12 +51,14 @@
             text-align: center;
             display: none;
             position: relative;
-            top: 20px; /* Adjust the desired distance to move the buy options down */
+            top: 20px; 
+            /* to move the buy options up or down */
         }
         .click-counter {
             text-align: center;
             font-size: 36px;
-            margin-top: 110px; /* Adjust the desired distance to move the click counter down */
+            margin-top: 110px; 
+            /* to move the click counter up or down */
         }
         .click-container {
             text-align: center;
@@ -84,29 +86,30 @@
     </div>
 
     <script>
+        //javascript from here and below
         var clickCount = 0;
         var clickCounter = document.getElementById("clickCounter");
-        var clickIncrement = 1; // Default click increment
+        var clickIncrement = 1;
         var cps = 0; // Clicks per second
         var clickTimer; // Timer for clicks per second
 
-        // Update the click counter
+        // updates the click counter for every click
         clickCounter.innerText = clickCount + " clicks";
 
-        // JavaScript function for the Click button
+        //function of the Click button
         function clickAction() {
             clickCount += clickIncrement;
             clickCounter.innerText = clickCount + " clicks";
             console.log("Click action triggered.");
         }
 
-        // JavaScript function to toggle the menu visibility
+        // function to toggle the menu visibility
         function toggleMenu() {
             var menuContainer = document.querySelector(".menu-container");
             menuContainer.style.display = (menuContainer.style.display === "none") ? "block" : "none";
         }
 
-        // JavaScript function to handle the purchase of an option
+        // function to handle the purchase of an option
         function purchaseOption(optionNumber) {
             var optionButton = document.querySelector(".menu-container button:nth-child(" + optionNumber + ")");
             var price = getPriceFromButton(optionButton);
@@ -115,7 +118,7 @@
                 clickCount -= price;
                 clickCounter.innerText = clickCount + " clicks";
 
-                // Increase the price for the next purchase
+                // Increases the price for the next purchase
                 updatePrice(optionButton, price);
 
                 // Perform actions with the purchased option
@@ -126,21 +129,21 @@
             }
         }
 
-        // Helper function to extract the price from an option button text
+        //function to take the price from an option button text
         function getPriceFromButton(button) {
             var buttonText = button.innerText;
             var priceString = buttonText.substring(buttonText.indexOf(":") + 1).trim();
             return parseInt(priceString);
         }
 
-        // Helper function to update the price for the next purchase
+        //function to update the price for the next purchase
         function updatePrice(button, currentPrice) {
             var priceIncrease = Math.ceil(currentPrice * 0.3); // Increase price by 30%
             var newPrice = currentPrice + priceIncrease;
             button.innerText = button.innerText.replace(currentPrice, newPrice);
         }
 
-        // Helper function to apply the effect of the purchased option
+        //function to apply the effect of the purchased option
         function applyOptionEffect(optionNumber, price) {
             var clicksPerSecond = 0;
 
@@ -176,10 +179,12 @@
             }, 1000);
         }
 
-        // JavaScript function for the Back button
+        /* maybe adding a back button
+        to make the function for the Back button
         function goBack() {
             window.history.back();
         }
+        */
     </script>
 </body>
 </html>
