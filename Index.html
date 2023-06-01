@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <body style="background-color:rgb(0, 182, 179);">
+    <body style="background-color:rgb(1, 210, 207);">
     <title>The Clicker Game</title>
     <style>
         .container {
-            margin: 20px;
+            margin: 20px;`x
         }
         h1 {
             text-align: center;
@@ -16,9 +16,8 @@
             animation: moveTitle 5s linear infinite;
         }
         @keyframes moveTitle {
-            0% { left: -200px; }
-            100% { left: calc(100% - 200px); } 
-            /* Adjusts the width of the title */
+            from { left: -200px; }
+            to { left: calc(100% - 200px); } 
         }
         .button-container {
             text-align: center;
@@ -52,13 +51,11 @@
             display: none;
             position: relative;
             top: 20px; 
-            /* to move the buy options up or down */
         }
         .click-counter {
             text-align: center;
             font-size: 36px;
             margin-top: 110px; 
-            /* to move the click counter up or down */
         }
         .click-container {
             text-align: center;
@@ -86,30 +83,25 @@
     </div>
 
     <script>
-        //javascript from here and below
         var clickCount = 0;
         var clickCounter = document.getElementById("clickCounter");
         var clickIncrement = 1;
-        var cps = 0; // Clicks per second
-        var clickTimer; // Timer for clicks per second
+        var cps = 0; 
+        var clickTimer;
 
-        // updates the click counter for every click
         clickCounter.innerText = clickCount + " clicks";
 
-        //function of the Click button
         function clickAction() {
             clickCount += clickIncrement;
             clickCounter.innerText = clickCount + " clicks";
             console.log("Click action triggered.");
         }
 
-        // function to toggle the menu visibility
         function toggleMenu() {
             var menuContainer = document.querySelector(".menu-container");
             menuContainer.style.display = (menuContainer.style.display === "none") ? "block" : "none";
         }
 
-        // function to handle the purchase of an option
         function purchaseOption(optionNumber) {
             var optionButton = document.querySelector(".menu-container button:nth-child(" + optionNumber + ")");
             var price = getPriceFromButton(optionButton);
@@ -118,32 +110,24 @@
                 clickCount -= price;
                 clickCounter.innerText = clickCount + " clicks";
 
-                // Increases the price for the next purchase
                 updatePrice(optionButton, price);
 
-                // Perform actions with the purchased option
                 console.log("Purchased Option " + optionNumber + " for " + price + " clicks");
                 applyOptionEffect(optionNumber, price);
             } else {
                 console.log("Insufficient clicks to purchase Option " + optionNumber);
             }
         }
-
-        //function to take the price from an option button text
         function getPriceFromButton(button) {
             var buttonText = button.innerText;
             var priceString = buttonText.substring(buttonText.indexOf(":") + 1).trim();
             return parseInt(priceString);
         }
-
-        //function to update the price for the next purchase
         function updatePrice(button, currentPrice) {
-            var priceIncrease = Math.ceil(currentPrice * 0.3); // Increase price by 30%
+            var priceIncrease = Math.ceil(currentPrice * 0.3);
             var newPrice = currentPrice + priceIncrease;
             button.innerText = button.innerText.replace(currentPrice, newPrice);
         }
-
-        //function to apply the effect of the purchased option
         function applyOptionEffect(optionNumber, price) {
             var clicksPerSecond = 0;
 
@@ -182,7 +166,7 @@
         /* maybe adding a back button
         to make the function for the Back button
         function goBack() {
-            window.history.back();
+            window.history.back();  
         }
         */
     </script>
